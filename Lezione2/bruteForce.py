@@ -11,7 +11,7 @@
 
 
 
-from messaggioCif import decrypt
+from Lezione2.messaggioCif import decrypt
 
 
 enc = "OgJuOYJZT0FDb47DBOkNgA=="
