@@ -9,13 +9,13 @@ def pad(text):
 
 # Encryption
 def encrypt(plain_text, key):
-    cipher = AES.new(pad(key).encode('utf-8'), AES.MODE_ECB)
+    cipher = AES.new(pad(key).encode('UTF-8'), AES.MODE_ECB)
     encrypted_text = cipher.encrypt(pad(plain_text).encode('utf-8'))
     return base64.b64encode(encrypted_text).decode('utf-8')
 
 # Decryption
 def decrypt(encrypted_text, key):
-    cipher = AES.new(pad(key).encode('utf-8'), AES.MODE_ECB)
+    cipher = AES.new(pad(key).encode('UTF-8'), AES.MODE_ECB)
     decrypted_text = cipher.decrypt(base64.b64decode(encrypted_text)).decode('utf-8').strip()
     return decrypted_text
 
