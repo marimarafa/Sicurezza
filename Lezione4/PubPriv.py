@@ -51,8 +51,8 @@ def decrypt_message(encrypted_message, priv_key):
 # Example usage
 message = "gkòvjergrgplgpwg"
 encrypted_message = encrypt_message(message, public_key_collega)
-#decrypted_message = decrypt_message(encrypted_message, key_pair)
+#decrypted_message = decrypt_message(encrypted_message, key_pair)     per decifrare il messaggio
 
 print("Original Message:", message)
 print("Encrypted Message:", encrypted_message)
-#print("Decrypted Message:", decrypted_message)
+#print("Decrypted Message:", decrypted_message)    per decifrare il messaggio
