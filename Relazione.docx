@@ -1,0 +1,93 @@
+1) Come si generano le chiavi :
+
+L' RSA si basa sulla generazione di una coppia di chiavi: una chiave privata, che viene utilizzata per decifrare i messaggi,
+e una chiave pubblica, che viene utilizzata per cifrare i messaggi. Il segreto dell'algoritmo è impedire che qualcuno possa
+fattorizzare un grande numero in numeri primi.è possibile utilizzare la libreria pycryptodome per generare una coppia di chiavi RSA in Python.
+Qui mostra un esempio con codice per la generazione delle chiavi privata e pubblica del RSA:
+
+** Codice d'esempio**
+
+from Crypto.PublicKey import RSA 
+# Generazione della coppia di chiavi( privata e pubblica) 
+key_pair = RSA.generate(2048) 
+# Esportazione della chiave privata 
+private_key = key_pair.export_key() 
+print('Private Key:') print(private_key.decode('utf-8')) 
+# Esportazione della chiave pubblica 
+public_key = key_pair.publickey().export_key() 
+print('Public Key:') print(public_key.decode('utf-8'))
+
+_______________________________________________________________________________________________________________________________
+
+2) Quali chiavi si scambiano per cifrare :
+
+Le chiavi scambiate per cifrare i messaggi tra due colleghi sono le chiavi pubbliche. Ogni utente mantiene una copia della propria 
+chiave privata e non dovrebbe condividerla mai con nessuno. A tal fine, il mittente di un messaggio usa la chiave pubblica del
+ destinatario per cifrare il messaggio e successivamente il destinatario utilizza la sua chiave privata per decifrarlo.
+Il seguente schema sarÃ  considerato allo scopo:
+
+Mittente: utilizza la chiave pubblica del destinatario per cifrare il messaggio.
+Destinatario: utilizza la propria chiave privata per decifrare il messaggio ricevuto.
+
+________________________________________________________________________________________________________________________________
+
+3) Come si cifra un messaggio per un collega :
+
+per cifrare un messaggio con la chiave pubblica di un collega, è possibile utilizzare lâ€™algoritmo RSA in combinazione
+ con lo schema di padding OAEP che garantisce la sicurezza della cifratura e rende il messaggio cifrato non vulnerabile
+a certi tipi di attacchi.
+Un esempio di codice per cifrare con la chiave pubblica di un collega Ã¨ il seguente:
+
+** Codice d'esempio**
+
+from Crypto.Cipher import PKCS1_OAEP 
+from Crypto.PublicKey import RSA 
+import base64 
+# Funzione per cifrare un messaggio con una chiave pubblica 
+def encrypt_message(message, pub_key): 
+cipher = PKCS1_OAEP.new(pub_key) 
+encrypted_message = cipher.encrypt(message.encode("utf-8"))
+return base64.b64encode(encrypted_message).decode("utf-8") 
+# Chiave pubblica del collega 
+public_key_collega = RSA.import_key(sPubCollega) 
+# Messaggio da cifrare message = "Questo Ã¨ un messaggio cifrato"
+encrypted_message = encrypt_message(message, public_key_collega) 
+print("Messaggio cifrato:", encrypted_message)
+
+_______________________________________________________________________________________________________________________________
+
+4) Come si decifra un messaggio proveniente da un collega :
+
+Una volta ricevuto un messaggio cifrato dal collega, si utilizza la propria chiave privata per decifrare il messaggio.
+Anche qui viene utilizzato l'algoritmo RSA con OAEP per assicurare la corretta decodifica del messaggio.
+Passaggi per decifrare un messaggio cifrato:
+1-Ricezione del messaggio cifrato: Il destinatario riceve il messaggio cifrato in forma di una stringa, che rappresenta i
+dati codificati in Base64 (per facilitare la trasmissione di dati binari in testo).
+
+2-Decodifica da Base64: Prima di decrittare il messaggio, Ã¨ necessario convertire la stringa codificata in Base64 nei dati binari originali.
+
+3-Uso della chiave privata per decifrare: Viene utilizzata la chiave privata del destinatario insieme all'algoritmo RSA e lo
+ schema di padding PKCS1_OAEP per decifrare il messaggio. Questo processo restituisce il messaggio in chiaro.
+
+** Codice d'esempio**
+
+from Crypto.Cipher import PKCS1_OAEP
+from Crypto.PublicKey import RSA
+import base64
+
+# Funzione per decifrare un messaggio con la chiave privata
+def decrypt_message(encrypted_message, priv_key):
+    cipher = PKCS1_OAEP.new(priv_key)
+    decrypted_message = cipher.decrypt(base64.b64decode(encrypted_message))
+    return decrypted_message.decode("utf-8")
+
+# Messaggio cifrato ricevuto
+cifrato = "messaggio cifrato ricevuto"
+
+# Decifrazione con la chiave privata
+decifrato = decrypt_message(cifrato, key_pair)
+print("Il messaggio decifrato: ", decifrato)
+_______________________________________________________________________________________________________________________________
+
+
+
